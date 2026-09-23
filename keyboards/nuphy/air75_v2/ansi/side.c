@@ -295,13 +295,7 @@ void sleep_sw_led_show(void) {
  * @brief  sys_led_show.
  */
 void sys_led_show(void) {
-    if (dev_info.link_mode == LINK_USB) {
-        if (host_keyboard_led_state().caps_lock) {
-            set_left_rgb(0X00, 0x80, 0x80);
-        }
-    }
-
-    else {
+    if (dev_info.link_mode != LINK_USB) {
         if (dev_info.rf_led & 0x02) {
             set_left_rgb(0X00, 0x80, 0x80);
         }
@@ -833,6 +827,7 @@ void rgb_test_show(void)
     wait_ms(500);
 }
 
+__attribute__((weak)) void before_side_rgb_refresh_user(void) {}
 /**
  * @brief  side_led_show.
  */
@@ -866,6 +861,8 @@ void side_led_show(void) {
 
     sys_led_show();
     rf_led_show();
+
+    before_side_rgb_refresh_user();
 
     if (timer_elapsed32(side_refresh_time) > 30) {
         side_refresh_time = timer_read32();

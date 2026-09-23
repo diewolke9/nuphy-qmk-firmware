@@ -21,3 +21,19 @@ bool led_update_user(led_t led_state) {
     caps_lock_active = led_state.caps_lock;
     return true;
 }
+
+#include "action_util.h"
+#include "side.h"
+
+void before_side_rgb_refresh_user(void) {
+  HSV hsv_blue        = { .h = 170, .s = 255, .v = rgb_matrix_get_val() };
+  RGB rgb_blue        = hsv_to_rgb(hsv_blue);
+
+  bool is_shift_active = get_mods() & MOD_MASK_SHIFT;
+
+  if (caps_lock_active ^ is_shift_active) {
+    set_left_rgb(rgb_blue.r, rgb_blue.g, rgb_blue.b);
+  }
+
+}
+

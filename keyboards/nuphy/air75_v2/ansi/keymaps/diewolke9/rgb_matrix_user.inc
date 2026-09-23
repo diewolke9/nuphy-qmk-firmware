@@ -44,7 +44,7 @@ static bool custom_colors(effect_params_t* params) {
         rgb = rgb_red;
         break;
 
-      // Caps Lock -> Blue (Flickers on/off every 100ms when Caps Lock is enabled)
+      // Caps Lock -> Blue (Flickers on/off every 500ms when Caps Lock is enabled)
       case 59:
         if (caps_lock_active) {
           bool flicker_state = (timer_read() / 500) % 2 == 0;
